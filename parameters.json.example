@@ -1,0 +1,9 @@
+{
+    "AWS": {
+        "accessKeyId": "XXX",
+        "secretAccessKey": "XXX",
+        "region": "XXX",
+        "bucket": "XXX"
+    },
+    "defaultFolder": "test-folder/"
+}

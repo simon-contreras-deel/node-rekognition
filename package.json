@@ -1,0 +1,30 @@
+{
+  "name": "iairekognition",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "DEBUG=IAIRekognition* node test/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.60.0",
+    "debug": "^2.6.8"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/oleurud/IAIRekognition.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oleurud/IAIRekognition/issues"
+  },
+  "homepage": "https://github.com/oleurud/IAIRekognition#readme",
+  "description": ""
+}
