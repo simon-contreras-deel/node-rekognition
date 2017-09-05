@@ -7,7 +7,7 @@ const debug = require('debug')('IAIRekognition:test')
 
 // Test suites
 mocha.addFile(__dirname + '/integration/S3.js')
-mocha.addFile(__dirname + '/integration/IAIRekognition.js')
+mocha.addFile(__dirname + '/integration/Rekognition.js')
 
 mocha.run()
     .on('test', function(test) {

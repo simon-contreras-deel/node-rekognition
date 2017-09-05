@@ -46,4 +46,11 @@ module.exports = class IAIRekognition {
             )
         }
     }
+
+    async detectModerationLabels(imagePath, folder, threshold) {
+        let s3Image = await this.s3.upload(imagePath, folder)
+        if (s3Image) {
+            return await this.rekognition.detectModerationLabels(s3Image.Bucket, s3Image.Key, threshold)
+        }
+    }
 }

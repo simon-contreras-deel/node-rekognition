@@ -61,7 +61,7 @@ module.exports = class Rekognition {
      * @param {string} threshold The minimum level of confidence in the face matches
      */
     compareFaces(bucket, sourceImageName, targetImageName, threshold = 90) {
-        let params = {
+        const params = {
             SimilarityThreshold: threshold,
             SourceImage: {
                 S3Object: {
@@ -79,4 +79,19 @@ module.exports = class Rekognition {
 
         return this.doCall('compareFaces', params)
     }
+
+    detectModerationLabels(bucket, imageFile, threshold = 0) {
+        const params = {
+            Image: {
+                S3Object: {
+                    Bucket: bucket,
+                    Name: imageFile
+                }
+            },
+            MinConfidence: threshold
+        }
+
+        return this.doCall('detectModerationLabels', params)
+    }
+
 }
