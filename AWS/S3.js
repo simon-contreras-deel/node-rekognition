@@ -46,7 +46,7 @@ module.exports = class S3 {
                             reject(err)
                         }
 
-                        debug('upload-finish')
+                        debug('upload-finish', s3FilePath)
                         resolve(data)
                     })
             })
@@ -57,6 +57,19 @@ module.exports = class S3 {
                 Key: s3FilePath
             }
         }
+    }
+
+    /**
+     * Upload multiple files to S3 in parallel
+     * 
+     * @param {array of strings} filePaths 
+     * @param {string} folder 
+     * @return {array} of S3 files in the same input order
+     */
+    async uploadMultiple(filePaths, folder) {
+        return await Promise.all(
+            filePaths.map(filePath => this.upload(filePath, folder))
+        )
     }
 
     /**
