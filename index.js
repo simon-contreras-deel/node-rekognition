@@ -19,7 +19,7 @@ module.exports = class IAIRekognition {
      * @param {string} folder 
      */
     async uploadToS3(imagePaths, folder) {
-        if(Array.isArray(imagePaths))
+        if (Array.isArray(imagePaths))
             return await this.s3.uploadMultiple(imagePaths, folder)
         else
             return await this.s3.upload(imagePaths, folder)
@@ -28,48 +28,44 @@ module.exports = class IAIRekognition {
     /**
      * Detects instances of real-world labels within an image 
      * 
-     * @param {string} imagePath 
-     * @param {string} folder 
+     * @param {Object} s3Image 
      */
-    async detectLabels(imagePath, folder) {
-        const s3Image = await this.s3.upload(imagePath, folder)
-        if (s3Image) {
-            return await this.rekognition.detectLabels(s3Image.Bucket, s3Image.Key)
-        }
+    async detectLabels(s3Image) {
+        return await this.rekognition.detectLabels(s3Image.Bucket, s3Image.Key)
     }
 
-    async detectFaces(imagePath, folder) {
-        const s3Image = await this.s3.upload(imagePath, folder)
-        if (s3Image) {
-            return await this.rekognition.detectFaces(s3Image.Bucket, s3Image.Key)
-        }
+    /**
+     * Detects faces within an image
+     * 
+     * @param {Object} s3Image 
+     */
+    async detectFaces(s3Image) {
+        return await this.rekognition.detectFaces(s3Image.Bucket, s3Image.Key)
     }
 
     /**
      * Compares a face in the source input image with each face detected in the target input image
      * 
-     * @param {string} sourceImagePath 
-     * @param {string} targetImagePath 
-     * @param {string} folder 
+     * @param {Object} sourceS3Image 
+     * @param {Object} targetS3Image 
      * @param {number} threshold The minimum level of confidence in the face matches
      */
-    async compareFaces(sourceImagePath, targetImagePath, folder, threshold) {
-        const s3SourceImage = await this.s3.upload(sourceImagePath, folder)
-        const s3TargetImage = await this.s3.upload(targetImagePath, folder)
-        if (s3SourceImage && s3TargetImage) {
-            return await this.rekognition.compareFaces(
-                s3SourceImage.Bucket,
-                s3SourceImage.Key,
-                s3TargetImage.Key,
-                threshold
-            )
-        }
+    async compareFaces(sourceS3Image, targetS3Image, threshold) {
+        return await this.rekognition.compareFaces(
+            s3SourceImage.Bucket,
+            s3SourceImage.Key,
+            s3TargetImage.Key,
+            threshold
+        )
     }
 
-    async detectModerationLabels(imagePath, folder, threshold) {
-        const s3Image = await this.s3.upload(imagePath, folder)
-        if (s3Image) {
-            return await this.rekognition.detectModerationLabels(s3Image.Bucket, s3Image.Key, threshold)
-        }
+    /**
+     * Detects explicit or suggestive adult content in image
+     * 
+     * @param {Object} s3Image 
+     * @param {number} threshold 
+     */
+    async detectModerationLabels(s3Image, threshold) {
+        return await this.rekognition.detectModerationLabels(s3Image.Bucket, s3Image.Key, threshold)
     }
 }

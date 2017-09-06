@@ -106,7 +106,7 @@ module.exports = class S3 {
         const fileName = new Date().getTime() + '-' + filePath.split('/').pop()
         const extension = fileName.split('.').pop().toLowerCase()
 
-        if(validFormats.length && validFormats.indexOf(extension) !== -1)
+        if (validFormats.length && validFormats.indexOf(extension) !== -1)
             return folder + fileName
         else
             throw new Error('Invalid file format')

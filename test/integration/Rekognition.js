@@ -35,7 +35,7 @@ describe('IAIRekognition', function () {
     })
 
     it('detect labels should response ok and have labels', async function () {
-        const imageLabels = await rekognition.detectLabels(parameters.AWS.bucket, imageFile)
+        const imageLabels = await rekognition.detectLabels(imageFile)
 
         expect(imageLabels).to.have.property('Labels')
         expect(imageLabels.Labels).to.be.an('array')
@@ -46,7 +46,7 @@ describe('IAIRekognition', function () {
     })
 
     it('detect faces should response ok and have details', async function () {
-        const imageFaces = await rekognition.detectFaces(parameters.AWS.bucket, imageFile)
+        const imageFaces = await rekognition.detectFaces(imageFile)
 
         expect(imageFaces).to.have.property('FaceDetails')
         expect(imageFaces.FaceDetails).to.be.an('array')
@@ -60,7 +60,7 @@ describe('IAIRekognition', function () {
     })
 
     it('compare faces of Mark_Zuckerberg and Mark_Zuckerberg_and_wife2 should match and unmatch', async function () {  
-        const faceMatches = await rekognition.compareFaces(parameters.AWS.bucket, sourceImageFile, targetImageFile)
+        const faceMatches = await rekognition.compareFaces(sourceImageFile, targetImageFile)
 
         expect(faceMatches).to.have.property('FaceMatches')
         expect(faceMatches).to.have.property('UnmatchedFaces')
@@ -75,7 +75,7 @@ describe('IAIRekognition', function () {
     })
 
     it('compare faces of Mark_Zuckerberg and Bill_Gates should unmatch', async function () {
-        const faceMatches = await rekognition.compareFaces(parameters.AWS.bucket, sourceImageFile, billGatesFile)
+        const faceMatches = await rekognition.compareFaces(sourceImageFile, billGatesFile)
 
         expect(faceMatches).to.have.property('FaceMatches')
         expect(faceMatches).to.have.property('UnmatchedFaces')
@@ -90,7 +90,7 @@ describe('IAIRekognition', function () {
     })
 
     it('detect moderation labels should response ok and have details', async function () {
-        const moderationLabels = await rekognition.detectModerationLabels(parameters.AWS.bucket, moderationFile)
+        const moderationLabels = await rekognition.detectModerationLabels(moderationFile)
 
         expect(moderationLabels).to.have.property('ModerationLabels')
         expect(moderationLabels.ModerationLabels).to.be.an('array')
@@ -110,7 +110,7 @@ describe('IAIRekognition', function () {
     })
 
     it('index faces of Mark_Zuckerberg_and_wife2 should response ok', async function () {
-        const facesIndexed = await rekognition.indexFaces(parameters.AWS.bucket, collectionId, targetImageFile)
+        const facesIndexed = await rekognition.indexFaces(collectionId, targetImageFile)
         
         expect(facesIndexed).to.have.property('FaceRecords')
         expect(facesIndexed.FaceRecords.length).to.be.equal(2)
@@ -123,7 +123,7 @@ describe('IAIRekognition', function () {
     })
 
     it('search faces by faceId should response ok', async function () {
-        const facesIndexed = await rekognition.indexFaces(parameters.AWS.bucket, collectionId, sourceImageFile)
+        const facesIndexed = await rekognition.indexFaces(collectionId, sourceImageFile)
         const newFaceId = facesIndexed.FaceRecords[0].Face.FaceId
         
         const faceMatches = await rekognition.searchFacesByFaceId(collectionId, newFaceId)
@@ -137,7 +137,7 @@ describe('IAIRekognition', function () {
     })
 
     it('search faces by image should response ok', async function () {
-        const faceMatches = await rekognition.searchFacesByImage(parameters.AWS.bucket, collectionId, sourceImageFile)
+        const faceMatches = await rekognition.searchFacesByImage(collectionId, sourceImageFile)
         
         expect(faceMatches).to.have.property('FaceMatches')
         expect(faceMatches.FaceMatches.length).to.be.equal(2)
