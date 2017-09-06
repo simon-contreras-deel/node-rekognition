@@ -21,9 +21,9 @@ mocha.run()
             debug({
                 'title': test.title,
                 'message': test.file
-            });
+            })
         }
     })
     .on('end', function() {
         process.exit()
-    });
+    })

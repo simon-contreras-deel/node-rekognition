@@ -18,6 +18,12 @@ module.exports = class S3 {
         })
     }
 
+    /**
+     * Upload file to S3 bucket into specified folder
+     * 
+     * @param {string} filePath 
+     * @param {string} folder 
+     */
     async upload(filePath, folder) {
         const s3FilePath = this.getS3FullPath(filePath, folder)
 
@@ -60,11 +66,11 @@ module.exports = class S3 {
     }
 
     /**
-     * Upload multiple files to S3 in parallel
+     * Upload multiple files in parallel to S3 bucket into specified folder
      * 
-     * @param {array of strings} filePaths 
+     * @param {Array.<strings>} filePaths 
      * @param {string} folder 
-     * @return {array} of S3 files in the same input order
+     * @returns {Promise.<Array>} of S3 files in the same input order
      */
     async uploadMultiple(filePaths, folder) {
         return await Promise.all(
@@ -76,7 +82,7 @@ module.exports = class S3 {
      * Check if file exists in S3
      * 
      * @param {string} s3FilePath 
-     * @return {boolean Promise} 
+     * @return {Promise.<boolean>}} 
      */
     async exists(s3FilePath) {
         return new Promise((resolve, reject) => {
@@ -89,11 +95,21 @@ module.exports = class S3 {
         })
     }
 
-    getS3FullPath(filePath, folder) {
+    /**
+     * Creates the S3 path and checks the file format
+     * 
+     * @param {string} filePath 
+     * @param {string} folder 
+     */
+    getS3FullPath(filePath, folder, validFormats = ['jpg', 'jpeg', 'png']) {
         folder = folder || parameters.defaultFolder
         const fileName = new Date().getTime() + '-' + filePath.split('/').pop()
+        const extension = fileName.split('.').pop().toLowerCase()
 
-        return folder + fileName
+        if(validFormats.length && validFormats.indexOf(extension) !== -1)
+            return folder + fileName
+        else
+            throw new Error('Invalid file format')
     }
 }
 
