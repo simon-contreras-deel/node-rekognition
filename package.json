@@ -10,7 +10,7 @@
     "test": "DEBUG=node-rekognition* node test/index.js"
   },
   "author": "Simon Martin <oleurud@gmail.com>",
-  "license": "GNU GPLv3",
+  "license": "GPL-3.0",
   "dependencies": {
     "aws-sdk": "^2.60.0",
     "debug": "^2.6.8"
