@@ -6,7 +6,7 @@ const parameters = require('../../parameters')
 
 const debug = require('debug')('node-rekognition:test:S3')
 
-const imagePath = __dirname + '/../../images/lake.jpg'
+const imagePath = __dirname + '/../../images/run.jpg'
 const s3 = new S3(parameters.AWS)
 
 describe('S3', function () {
