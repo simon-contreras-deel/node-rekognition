@@ -1,8 +1,8 @@
 'use strict'
 
 const AWS = require('aws-sdk')
-const debug = require('debug')('IAIRekognition:Rekognition')
-
+const debug = require('debug')('node-rekognition:Rekognition')
+const S3 = require('./S3')
 
 module.exports = class Rekognition {
     constructor(AWSParameters) {
@@ -12,7 +12,21 @@ module.exports = class Rekognition {
             region: AWSParameters.region
         })
 
+        this.s3 = new S3(AWSParameters)
         this.bucket = AWSParameters.bucket
+    }
+
+    /**
+     * Upload image or images array to S3 bucket into specified folder
+     * 
+     * @param {Array.<string>|string} imagePaths 
+     * @param {string} folder a folder name inside your AWS S3 bucket (it will be created if not exists)
+     */
+    async uploadToS3(imagePaths, folder) {
+        if (Array.isArray(imagePaths))
+            return await this.s3.uploadMultiple(imagePaths, folder)
+        else
+            return await this.s3.upload(imagePaths, folder)
     }
 
     /**
@@ -36,18 +50,19 @@ module.exports = class Rekognition {
     /**
      * Detects instances of real-world labels within an image 
      * 
-     * @param {string} s3ImageKey 
-     */
-    async detectLabels(s3ImageKey) {
+     * @param {Object} s3Image 
+     * @param {string} threshold
+    */
+    async detectLabels(s3Image, threshold = 50) {
         const params = {
             Image: {
                 S3Object: {
                     Bucket: this.bucket,
-                    Name: s3ImageKey
+                    Name: s3Image.Key
                 }
             },
-            MaxLabels: 123,
-            MinConfidence: 35
+            MaxLabels: 4096,
+            MinConfidence: threshold
         }
 
         return await this.doCall('detectLabels', params)
@@ -56,14 +71,14 @@ module.exports = class Rekognition {
     /**
      * Detects faces within an image
      * 
-     * @param {string} s3ImageKey 
+     * @param {Object} s3Image
      */
-    async detectFaces(s3ImageKey) {
+    async detectFaces(s3Image) {
         const params = {
             Image: {
                 S3Object: {
                     Bucket: this.bucket,
-                    Name: s3ImageKey
+                    Name: s3Image.Key
                 }
             }
         }
@@ -74,23 +89,23 @@ module.exports = class Rekognition {
     /**
      * Compares a face in the source input image with each face detected in the target input image
      * 
-     * @param {string} sourceS3ImageKey 
-     * @param {string} targetS3ImageKey 
-     * @param {string} threshold The minimum level of confidence in the face matches
+     * @param {Object} sourceS3Image 
+     * @param {Object} targetS3Image 
+     * @param {string} threshold
      */
-    async compareFaces(sourceS3ImageKey, targetS3ImageKey, threshold = 90) {
+    async compareFaces(sourceS3Image, targetS3Image, threshold = 90) {
         const params = {
             SimilarityThreshold: threshold,
             SourceImage: {
                 S3Object: {
                     Bucket: this.bucket, 
-                    Name: sourceS3ImageKey
+                    Name: sourceS3Image.Key
                 }
             },
             TargetImage: {
                 S3Object: {
                     Bucket: this.bucket,
-                    Name: targetS3ImageKey
+                    Name: targetS3Image.Key
                 }
             }
         }
@@ -101,15 +116,15 @@ module.exports = class Rekognition {
     /**
      * Detects explicit or suggestive adult content in image
      * 
-     * @param {string} s3ImageKey 
+     * @param {Object} s3Image
      * @param {number} threshold 
      */
-    async detectModerationLabels(s3ImageKey, threshold = 0) {
+    async detectModerationLabels(s3Image, threshold = 50) {
         const params = {
             Image: {
                 S3Object: {
                     Bucket: this.bucket,
-                    Name: s3ImageKey
+                    Name: s3Image.Key
                 }
             },
             MinConfidence: threshold
@@ -135,15 +150,15 @@ module.exports = class Rekognition {
      * Detects faces in the input image and adds them to the specified collection
      * 
      * @param {string} collectionId 
-     * @param {string} s3ImageKey 
+     * @param {Object} s3Image
      */
-    async indexFaces(collectionId, s3ImageKey) {
+    async indexFaces(collectionId, s3Image) {
         var params = {
             CollectionId: collectionId,
             Image: {
                 S3Object: {
                     Bucket: this.bucket, 
-                    Name: s3ImageKey
+                    Name: s3Image.Key
                 }
             }
         }
@@ -187,16 +202,16 @@ module.exports = class Rekognition {
      * First detects the largest face in the image (indexes it), and then searches the specified collection for matching faces.
      * 
      * @param {string} collectionId 
-     * @param {string} s3ImageKey 
+     * @param {Object} s3Image 
      * @param {number} threshold
      */
-    async searchFacesByImage(collectionId, s3ImageKey, threshold = 90) {
+    async searchFacesByImage(collectionId, s3Image, threshold = 90) {
         var params = {
             CollectionId: collectionId,
             Image: {
                 S3Object: {
                     Bucket: this.bucket, 
-                    Name: s3ImageKey
+                    Name: s3Image.Key
                 }
             },
             FaceMatchThreshold: threshold,

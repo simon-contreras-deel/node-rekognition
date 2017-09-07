@@ -1,12 +1,16 @@
 {
-  "name": "iairekognition",
-  "version": "0.0.1",
+  "name": "node-rekognition",
+  "version": "0.1.0",
+  "description": "AWS Rekognition library",
+  "keywords": [
+    "AWS", "rekognition", "node"
+  ],
   "main": "index.js",
   "scripts": {
-    "test": "DEBUG=IAIRekognition* node test/index.js"
+    "test": "DEBUG=node-rekognition* node test/index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Simon Martin <oleurud@gmail.com>",
+  "license": "GNU GPLv3",
   "dependencies": {
     "aws-sdk": "^2.60.0",
     "debug": "^2.6.8"
@@ -20,11 +24,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/oleurud/IAIRekognition.git"
+    "url": "git+ssh://git@github.com/oleurud/node-rekognition.git"
   },
   "bugs": {
-    "url": "https://github.com/oleurud/IAIRekognition/issues"
+    "url": "https://github.com/oleurud/node-rekognition/issues"
   },
-  "homepage": "https://github.com/oleurud/IAIRekognition#readme",
-  "description": ""
+  "homepage": "https://github.com/oleurud/node-rekognition#readme"
 }

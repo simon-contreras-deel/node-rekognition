@@ -5,5 +5,5 @@
         "region": "XXX",
         "bucket": "XXX"
     },
-    "defaultFolder": "test-folder/"
+    "defaultFolder": "node-rekognition-folder/"
 }

@@ -2,22 +2,19 @@
 
 const expect = require('chai').expect
 const Rekognition = require('../../AWS/rekognition')
-const S3 = require('../../AWS/S3')
 const parameters = require('../../parameters')
 
-const debug = require('debug')('IAIRekognition:test:Rekognition')
+const debug = require('debug')('node-rekognition:test:Rekognition')
 
 const rekognition = new Rekognition(parameters.AWS)
-const s3 = new S3(parameters.AWS)
 
 let imageFile, sourceImageFile, targetImageFile, billGatesFile, moderationFile
-let facesIdsIndexed = []
 const collectionId = new Date().getTime() + 'test'
 
-describe('IAIRekognition', function () {
+describe('Rekognition', function () {
     this.timeout(10000)
 
-    before( async function () {
+    it('uploadToS3 should response ok', async function () {
         const imagePaths = [
             __dirname + '/../../images/run.jpg',
             __dirname + '/../../images/Mark_Zuckerberg.jpg',
@@ -26,12 +23,12 @@ describe('IAIRekognition', function () {
             __dirname + '/../../images/volley_beach.jpg'
         ]
 
-        const s3Images = await s3.uploadMultiple(imagePaths, parameters.defaultFolder)
-        imageFile = s3Images[0].Key
-        sourceImageFile = s3Images[1].Key
-        targetImageFile = s3Images[2].Key
-        billGatesFile = s3Images[3].Key
-        moderationFile = s3Images[4].Key
+        const s3Images = await rekognition.uploadToS3(imagePaths, parameters.defaultFolder)
+        imageFile = s3Images[0]
+        sourceImageFile = s3Images[1]
+        targetImageFile = s3Images[2]
+        billGatesFile = s3Images[3]
+        moderationFile = s3Images[4]
     })
 
     it('detect labels should response ok and have labels', async function () {
@@ -117,8 +114,6 @@ describe('IAIRekognition', function () {
         facesIndexed.FaceRecords.forEach(function (face) {
             expect(face).to.have.property('Face')
             expect(face).to.have.property('FaceDetail')
-
-            facesIdsIndexed.push(face.Face.FaceId)
         })
     })
 

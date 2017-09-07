@@ -3,7 +3,7 @@
 const Mocha = require('mocha')
 const mocha = new Mocha({})
 
-const debug = require('debug')('IAIRekognition:test')
+const debug = require('debug')('node-rekognition:test')
 
 // Test suites
 mocha.addFile(__dirname + '/integration/S3.js')

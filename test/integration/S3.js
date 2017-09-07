@@ -4,7 +4,7 @@ const expect = require('chai').expect
 const S3 = require('../../AWS/S3')
 const parameters = require('../../parameters')
 
-const debug = require('debug')('IAIRekognition:test:S3')
+const debug = require('debug')('node-rekognition:test:S3')
 
 const imagePath = __dirname + '/../../images/lake.jpg'
 const s3 = new S3(parameters.AWS)

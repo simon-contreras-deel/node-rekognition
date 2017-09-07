@@ -2,12 +2,12 @@
 
 const AWS = require('aws-sdk')
 const fs = require('fs')
-const parameters = require('../parameters')
-const debug = require('debug')('IAIRekognition:S3')
+const debug = require('debug')('node-rekognition:S3')
+
+const VALID_FORMATS = ['jpg', 'jpeg', 'png']
 
 module.exports = class S3 {
     constructor(AWSParameters) {
-        this.AWSParameters = AWSParameters
         this.s3 = new AWS.S3({
             accessKeyId: AWSParameters.accessKeyId,
             secretAccessKey: AWSParameters.secretAccessKey,
@@ -101,12 +101,11 @@ module.exports = class S3 {
      * @param {string} filePath 
      * @param {string} folder 
      */
-    getS3FullPath(filePath, folder, validFormats = ['jpg', 'jpeg', 'png']) {
-        folder = folder || parameters.defaultFolder
+    getS3FullPath(filePath, folder = 'node-rekognition-folder/') {
         const fileName = new Date().getTime() + '-' + filePath.split('/').pop()
         const extension = fileName.split('.').pop().toLowerCase()
 
-        if (validFormats.length && validFormats.indexOf(extension) !== -1)
+        if (VALID_FORMATS.indexOf(extension) !== -1)
             return folder + fileName
         else
             throw new Error('Invalid file format')
