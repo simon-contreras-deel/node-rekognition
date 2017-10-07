@@ -147,6 +147,19 @@ module.exports = class Rekognition {
     }
 
     /**
+     * Deletes a collection 
+     * 
+     * @param {string} collectionId 
+     */
+    async deleteCollection(collectionId) {
+        const params = {
+            CollectionId: collectionId
+        }
+        
+        return await this.doCall('deleteCollection', params)
+    }
+
+    /**
      * Detects faces in the input image and adds them to the specified collection
      * 
      * @param {string} collectionId 

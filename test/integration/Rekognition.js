@@ -152,4 +152,11 @@ describe('Rekognition', function () {
             expect(face).to.have.property('ImageId')
         })
     })
+
+    it('delete collection should response ok', async function () {
+        const collection = await rekognition.deleteCollection(collectionId)
+        
+        expect(collection).to.have.property('StatusCode')
+        expect(collection.StatusCode).to.be.equal(200)
+    })
 })

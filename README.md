@@ -87,6 +87,16 @@ const moderationLabels = await rekognition.detectModerationLabels(s3Image, thres
 const collection = await rekognition.createCollection(collectionId)
 ```
 
+### deleteCollection
+```javascript
+/**
+ * Deletes a collection 
+ * 
+ * @param {string} collectionId 
+ */
+const collection = await rekognition.deleteCollection(collectionId)
+```
+
 ### indexFaces
 ```javascript
 /**
@@ -140,6 +150,9 @@ First of all, you must create a *parameters.json* file and set your AWS paramete
 Then:
 - npm install
 - npm test
+
+## Changelog
+Releases are documented in the [NEWS file](./NEWS.md)
 
 ## Requirements
 node >= 7.10.0
