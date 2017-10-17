@@ -16,6 +16,8 @@ module.exports = class S3 {
                 Bucket: AWSParameters.bucket
             }
         })
+
+        this.ACL = AWSParameters.ACL
     }
 
     /**
@@ -35,6 +37,10 @@ module.exports = class S3 {
                 const params = {
                     Key: s3FilePath,
                     Body: fileStream
+                }
+                
+                if (this.ACL) {
+                    params.ACL = this.ACL;
                 }
 
                 const opts = {

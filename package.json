@@ -1,6 +1,6 @@
 {
   "name": "node-rekognition",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "AWS Rekognition library",
   "keywords": [
     "AWS", "rekognition", "node"

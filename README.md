@@ -15,11 +15,14 @@ const AWSParameters = {
     "accessKeyId": "XXX",
     "secretAccessKey": "XXX",
     "region": "XXX",
-    "bucket": "XXX"
+    "bucket": "XXX",
+    "ACL": "XXX" // optional
 }
 
 const rekognition = new Rekognition(AWSParameters)
 ```
+The ACL is optional and its possible values are: "private", "public-read", "public-read-write", "authenticated-read", "aws-exec-read", "bucket-owner-read", "bucket-owner-full-control"  [More info](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property)
+
 
 ### Upload images to S3
 Some methods from AWS Rekognition need one or more images uploaded to AWS S3 bucket

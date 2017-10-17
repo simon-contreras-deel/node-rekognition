@@ -3,7 +3,8 @@
         "accessKeyId": "XXX",
         "secretAccessKey": "XXX",
         "region": "XXX",
-        "bucket": "XXX"
+        "bucket": "XXX",
+        "ACL": "XXX"
     },
     "defaultFolder": "node-rekognition-folder/"
 }
