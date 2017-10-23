@@ -48,19 +48,34 @@ module.exports = class Rekognition {
     }
 
     /**
-     * Detects instances of real-world labels within an image 
+     * Utility to get image params for s3 object or Bytes
      * 
-     * @param {Object} s3Image 
-     * @param {string} threshold
+     * @param {Object|Buffer} image 
+     * @return {Object} image params for Rekognition 
+     */
+
+    getImageParams(image) {
+      return image instanceof Buffer
+      ? {
+          Bytes: image
+        }
+      : {
+          S3Object: {
+            Bucket: this.bucket,
+            Name: image.Key
+          }
+        };
+    }
+
+    /**
+     * Detects instances of real-world labels within an image
+     * 
+     * @param {Object|Buffer} image 
+     * @param {string} threshold 
     */
-    async detectLabels(s3Image, threshold = 50) {
+    async detectLabels(image, threshold = 50) {
         const params = {
-            Image: {
-                S3Object: {
-                    Bucket: this.bucket,
-                    Name: s3Image.Key
-                }
-            },
+            Image: this.getImageParams(image),
             MaxLabels: 4096,
             MinConfidence: threshold
         }
@@ -71,16 +86,11 @@ module.exports = class Rekognition {
     /**
      * Detects faces within an image
      * 
-     * @param {Object} s3Image
+     * @param {Object|Buffer} image
      */
-    async detectFaces(s3Image) {
+    async detectFaces(image) {
         const params = {
-            Image: {
-                S3Object: {
-                    Bucket: this.bucket,
-                    Name: s3Image.Key
-                }
-            }
+            Image: this.getImageParams(image)
         }
 
         return await this.doCall('detectFaces', params)
@@ -89,25 +99,15 @@ module.exports = class Rekognition {
     /**
      * Compares a face in the source input image with each face detected in the target input image
      * 
-     * @param {Object} sourceS3Image 
-     * @param {Object} targetS3Image 
+     * @param {Object|Buffer} sourceImage 
+     * @param {Object|Buffer} targetImage 
      * @param {string} threshold
      */
-    async compareFaces(sourceS3Image, targetS3Image, threshold = 90) {
+    async compareFaces(sourceImage, targetImage, threshold = 90) {
         const params = {
             SimilarityThreshold: threshold,
-            SourceImage: {
-                S3Object: {
-                    Bucket: this.bucket, 
-                    Name: sourceS3Image.Key
-                }
-            },
-            TargetImage: {
-                S3Object: {
-                    Bucket: this.bucket,
-                    Name: targetS3Image.Key
-                }
-            }
+            SourceImage: this.getImageParams(sourceImage),
+            TargetImage: this.getImageParams(targetImage)
         }
 
         return await this.doCall('compareFaces', params)
@@ -116,17 +116,12 @@ module.exports = class Rekognition {
     /**
      * Detects explicit or suggestive adult content in image
      * 
-     * @param {Object} s3Image
+     * @param {Object|Buffer} image 
      * @param {number} threshold 
      */
-    async detectModerationLabels(s3Image, threshold = 50) {
+    async detectModerationLabels(image, threshold = 50) {
         const params = {
-            Image: {
-                S3Object: {
-                    Bucket: this.bucket,
-                    Name: s3Image.Key
-                }
-            },
+            Image: this.getImageParams(image),
             MinConfidence: threshold
         }
 
