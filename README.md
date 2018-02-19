@@ -1,31 +1,38 @@
-# node-rekognition
-AWS Rekognition library
+# rekognition-node
+
+This is a fork of [node-rekognition](https://github.com/oleurud/node-rekognition) by [oleurud](https://github.com/oleurud)
+
+Use this if you need to ability to send AWS image bytes in addition to an S3 Bucket
 
 ## Installation
-    npm install node-rekognition
+
+    npm install rekognition-node
 
 ## Use
 
 ### Instantiation
+
 ```javascript
-const Rekognition = require('node-rekognition')
+const Rekognition = require('rekognition-node');
 
 // Set your AWS credentials
 const AWSParameters = {
-    "accessKeyId": "XXX",
-    "secretAccessKey": "XXX",
-    "region": "XXX",
-    "bucket": "XXX",
-    "ACL": "XXX" // optional
-}
+  accessKeyId: 'XXX',
+  secretAccessKey: 'XXX',
+  region: 'XXX',
+  bucket: 'XXX',
+  ACL: 'XXX' // optional
+};
 
-const rekognition = new Rekognition(AWSParameters)
+const rekognition = new Rekognition(AWSParameters);
 ```
-The ACL is optional and its possible values are: "private", "public-read", "public-read-write", "authenticated-read", "aws-exec-read", "bucket-owner-read", "bucket-owner-full-control"  [More info](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property)
 
+The ACL is optional and its possible values are: "private", "public-read", "public-read-write", "authenticated-read", "aws-exec-read", "bucket-owner-read", "bucket-owner-full-control" [More info](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property)
 
 ### Upload images to S3
+
 Some methods from AWS Rekognition need one or more images uploaded to AWS S3 bucket
+
 ```javascript
 /**
  * Upload image or images array to S3 bucket into specified folder
@@ -37,6 +44,7 @@ const s3Images = await rekognition.uploadToS3(imagePaths, folder)
 ```
 
 ### detectLabels
+
 ```javascript
 /**
  * Detects instances of real-world labels within an image
@@ -48,6 +56,7 @@ const imageLabels = await rekognition.detectLabels(image)
 ```
 
 ### detectFaces
+
 ```javascript
 /**
  * Detects faces within an image
@@ -58,6 +67,7 @@ const imageFaces = await rekognition.detectFaces(image)
 ```
 
 ### compareFaces
+
 ```javascript
 /**
  * Compares a face in the source input image with each face detected in the target input image
@@ -70,6 +80,7 @@ const faceMatches = await rekognition.compareFaces(sourceImage, targetImage, thr
 ```
 
 ### detectModerationLabels
+
 ```javascript
 /**
  * Detects explicit or suggestive adult content in image
@@ -81,6 +92,7 @@ const moderationLabels = await rekognition.detectModerationLabels(image, thresho
 ```
 
 ### createCollection
+
 ```javascript
 /**
  * Creates a collection
@@ -91,6 +103,7 @@ const collection = await rekognition.createCollection(collectionId)
 ```
 
 ### deleteCollection
+
 ```javascript
 /**
  * Deletes a collection
@@ -101,6 +114,7 @@ const collection = await rekognition.deleteCollection(collectionId)
 ```
 
 ### indexFaces
+
 ```javascript
 /**
  * Detects faces in the input image and adds them to the specified collection
@@ -112,6 +126,7 @@ const facesIndexed = await rekognition.indexFaces(collectionId, s3Image)
 ```
 
 ### listFaces
+
 ```javascript
 /**
  * List the metadata for faces indexed in the specified collection
@@ -122,6 +137,7 @@ const faces = await rekognition.listFaces(collectionId)
 ```
 
 ### searchFaces
+
 ```javascript
 /**
  * Searches in the collection for matching faces of faceId
@@ -134,6 +150,7 @@ const faceMatches = await rekognition.searchFacesByFaceId(collectionId, faceId, 
 ```
 
 ### searchFacesByImage
+
 ```javascript
 /**
  * First detects the largest face in the image (indexes it), and then searches the specified collection for matching faces.
@@ -146,23 +163,30 @@ const faceMatches = await rekognition.searchFacesByImage(collectionId, s3Image, 
 ```
 
 ## Test
-First of all, you must create a *parameters.json* file and set your AWS parameters. You have an example file *parametrs.json.example*
-- cp parameters.json.example parameters.json
-- vim parameters.json
+
+First of all, you must create a _parameters.json_ file and set your AWS parameters. You have an example file _parametrs.json.example_
+
+* cp parameters.json.example parameters.json
+* vim parameters.json
 
 Then:
-- npm install
-- npm test
+
+* npm install
+* npm test
 
 ## Changelog
+
 Releases are documented in the [NEWS file](./NEWS.md)
 
 ## Requirements
+
 node >= 7.10.0
 
 ## Contributing
+
 **You are welcome contribute via pull requests.**
 
 ## More info about AWS Rekognition
+
 http://docs.aws.amazon.com/rekognition/latest/dg/API_Operations.html
 http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Rekognition.html
