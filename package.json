@@ -1,15 +1,13 @@
 {
-  "name": "node-rekognition",
-  "version": "0.3.0",
+  "name": "rekognition-node",
+  "version": "0.1.0",
   "description": "AWS Rekognition library",
-  "keywords": [
-    "AWS", "rekognition", "node"
-  ],
+  "keywords": ["AWS", "rekognition", "node"],
   "main": "index.js",
   "scripts": {
-    "test": "DEBUG=node-rekognition* node test/index.js"
+    "test": "DEBUG=rekognition-node* node test/index.js"
   },
-  "author": "Simon Martin <oleurud@gmail.com>",
+  "author": "Conor Cussell <contact@conorcussell.co.uk>",
   "license": "GPL-3.0",
   "dependencies": {
     "aws-sdk": "^2.60.0",
@@ -24,10 +22,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/oleurud/node-rekognition.git"
+    "url": "git+ssh://git@github.com/conorcussell/rekognition-node.git"
   },
   "bugs": {
-    "url": "https://github.com/oleurud/node-rekognition/issues"
+    "url": "https://github.com/conorcussell/rekognition-node/issues"
   },
-  "homepage": "https://github.com/oleurud/node-rekognition#readme"
+  "homepage": "https://github.com/conorcussell/rekognition-node#readme"
 }

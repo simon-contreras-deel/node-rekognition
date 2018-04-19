@@ -6,5 +6,5 @@
         "bucket": "XXX",
         "ACL": "XXX"
     },
-    "defaultFolder": "node-rekognition-folder/"
+    "defaultFolder": "rekognition-node-folder/"
 }
