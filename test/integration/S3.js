@@ -10,9 +10,9 @@ const imagePath = __dirname + '/../../images/run.jpg'
 const s3 = new S3(parameters.AWS)
 
 describe('S3', function () {
-    it('not existing file should be ok', async function () {        
+    it('not existing file should be ok', async function () {
         const result = await s3.exists('not-existing-file')
-        
+
         expect(result).to.be.false
     })
 
@@ -43,7 +43,7 @@ describe('S3', function () {
 
         // s3Image.Key = parameters.defaultFolder + new Date().getTime() + '-' + fileName
         const indexOfFileName = parameters.defaultFolder.length + (new Date().getTime() + '-').length
-        
+
         expect(s3Images).to.be.an('array')
         s3Images.forEach( (s3Image, index) => {
             expect(s3Image).to.have.property('ETag')

@@ -69,17 +69,17 @@ describe('Rekognition', function () {
     describe('detect faces', async function () {
         context('with an s3 image', async function () {
             it('should response ok and have details', async function () {
-              const imageFaces = await rekognition.detectFaces(imageFile)
+                const imageFaces = await rekognition.detectFaces(imageFile)
 
-              expect(imageFaces).to.have.property('FaceDetails')
-              expect(imageFaces.FaceDetails).to.be.an('array')
-              imageFaces.FaceDetails.forEach(function (element) {
-                  expect(element).to.have.property('BoundingBox')
-                  expect(element).to.have.property('Landmarks')
-                  expect(element).to.have.property('Pose')
-                  expect(element).to.have.property('Quality')
-                  expect(element).to.have.property('Confidence')
-              })
+                expect(imageFaces).to.have.property('FaceDetails')
+                expect(imageFaces.FaceDetails).to.be.an('array')
+                imageFaces.FaceDetails.forEach(function (element) {
+                    expect(element).to.have.property('BoundingBox')
+                    expect(element).to.have.property('Landmarks')
+                    expect(element).to.have.property('Pose')
+                    expect(element).to.have.property('Quality')
+                    expect(element).to.have.property('Confidence')
+                })
             })
         })
 
