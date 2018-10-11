@@ -12,6 +12,9 @@
     "test": "DEBUG=node-rekognition* node test/index.js"
   },
   "author": "Simon Martin <oleurud@gmail.com>",
+  "contributors": [
+    "conorcussell <conor@thetab.com>"
+  ],
   "license": "GPL-3.0",
   "dependencies": {
     "aws-sdk": "^2.60.0",
